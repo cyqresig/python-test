@@ -5,7 +5,8 @@ from PIL import Image
 
 ocr = ddddocr.DdddOcr()
 
-with open("target-click-selection-tx.png", 'rb') as f:
+# with open("temp/click-selection/background/selection-background.png", 'rb') as f:
+with open("temp/click-selection/target/selection-target.png", 'rb') as f:
     image = f.read()
 
 res = ocr.classification(image)
