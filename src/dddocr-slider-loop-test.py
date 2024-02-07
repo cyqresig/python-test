@@ -8,12 +8,19 @@ from rembg.bg import remove
 pwd = os.getcwd()
 det = ddddocr.DdddOcr(det=False, ocr=False)
 
-slider_background_directory_path = 'temp/slider-2/background'
-slider_background_validation_directory_path = 'temp/slider-2/background-validation'
-slider_sprite_directory_path = 'temp/slider-2/sprite-target'
-slider_crop_directory_path = 'temp/slider-2/crop-target'
-slider_removebg_directory_path = 'temp/slider-2/removebg-target'
-slider_validation_directory_path = 'temp/slider-2/validation'
+# slider_background_directory_path = 'temp/slider-2/background'
+# slider_background_validation_directory_path = 'temp/slider-2/background-validation'
+# slider_sprite_directory_path = 'temp/slider-2/sprite-target'
+# slider_crop_directory_path = 'temp/slider-2/crop-target'
+# slider_removebg_directory_path = 'temp/slider-2/removebg-target'
+# slider_validation_directory_path = 'temp/slider-2/validation'
+
+slider_background_directory_path = 'temp/slider-3/background'
+slider_background_validation_directory_path = 'temp/slider-3/background-validation'
+slider_sprite_directory_path = 'temp/slider-3/sprite-target'
+slider_crop_directory_path = 'temp/slider-3/crop-target'
+slider_removebg_directory_path = 'temp/slider-3/removebg-target'
+slider_validation_directory_path = 'temp/slider-3/validation'
 
 
 def crop_image(input_path, output_path, coordinates):
@@ -75,29 +82,33 @@ png_files = get_png_files(directory_path)
 # print(png_files);
 
 for png_file in png_files:
-    slider_background_file_path = os.path.join(pwd, slider_background_directory_path, png_file)
-    slider_background_validation_file_path = os.path.join(pwd, slider_background_validation_directory_path, png_file)
-    slider_sprite_file_path = os.path.join(pwd, slider_sprite_directory_path, png_file)
-    slider_sprite_crop_file_path = os.path.join(pwd, slider_crop_directory_path, f"crop_{png_file}")
-    slider_removebg_crop_file_path = os.path.join(pwd, slider_removebg_directory_path, f"removebg_{png_file}")
+    try:
+        slider_background_file_path = os.path.join(pwd, slider_background_directory_path, png_file)
+        slider_background_validation_file_path = os.path.join(pwd, slider_background_validation_directory_path, png_file)
+        slider_sprite_file_path = os.path.join(pwd, slider_sprite_directory_path, png_file)
+        slider_sprite_crop_file_path = os.path.join(pwd, slider_crop_directory_path, f"crop_{png_file}")
+        slider_removebg_crop_file_path = os.path.join(pwd, slider_removebg_directory_path, f"removebg_{png_file}")
 
-    print(slider_background_file_path)
-    # print(slider_background_validation_file_path)
-    # print(slider_sprite_file_path)
-    # print(slider_sprite_crop_file_path)
-    # print(slider_removebg_crop_file_path)
+        print(slider_background_file_path)
+        # print(slider_background_validation_file_path)
+        # print(slider_sprite_file_path)
+        # print(slider_sprite_crop_file_path)
+        # print(slider_removebg_crop_file_path)
 
-    print('crop_image...')
-    crop_image(slider_sprite_file_path, slider_sprite_crop_file_path, (143, 495, 255, 609))
+        print('crop_image...')
+        crop_image(slider_sprite_file_path, slider_sprite_crop_file_path, (143, 495, 255, 609))
 
-    print('remove_image_bg...')
-    remove_image_bg(slider_sprite_crop_file_path, slider_removebg_crop_file_path)
+        print('remove_image_bg...')
+        remove_image_bg(slider_sprite_crop_file_path, slider_removebg_crop_file_path)
 
-    print('detect box...')
-    res = dddocr_validate(slider_removebg_crop_file_path, slider_background_file_path)
+        print('detect box...')
+        res = dddocr_validate(slider_removebg_crop_file_path, slider_background_file_path)
 
-    print('paint validation mark...')
-    paint_validation_box(res['target'], slider_background_file_path, slider_background_validation_file_path)
+        print('paint validation mark...')
+        paint_validation_box(res['target'], slider_background_file_path, slider_background_validation_file_path)
+    except Exception as e:
+        # 处理任何异常
+        print("发生了一个异常:", e)
 
 
 
